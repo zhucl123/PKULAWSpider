@@ -10,9 +10,10 @@ import random
 
 random.seed(datetime.timestamp())
 sleep = lambda : time.sleep(1 + random.uniform(0, 2))
+log = lambda info : print(f"{datetime.now()}: {info}\n")
 
 # 用于从北大法宝下载裁判文书原文
-# 北大法宝提供批量下载，但无法获取裁判书原文，该爬虫是解决此需求
+# 北大法宝提供批量下载，该爬虫是解决自动化下载需求
 # 该爬虫写于2025.1.3至2025.1.5，随时间网站元素定位可能会变化，发现问题需自行修改
 class PKULawSpider:
     # 初始化函数，打开北大法宝搜索界面
@@ -28,11 +29,11 @@ class PKULawSpider:
         self.driver.get("https://www.pkulaw.com/case?way=topGuid")
         # 这里如果不设置全屏可能会引起错误，如无法点击搜索按钮
         self.driver.fullscreen_window()
-        print(time.time(), "：爬虫已启动！")
+        log("爬虫已启动！")
         sleep()
     def exit(self):
         self.driver.close()
-        print(f'\n{time.time()}:进程已结束！')
+        log("进程已结束！")
     def __find(self, by, addr):
         pass
     def __find_all(self, by, addr):
@@ -66,13 +67,15 @@ class PKULawSpider:
                 except:
                     continue
             next_page_button.click()
-        print(f"共读取{end_page}页")
+        log(f"共读取{end_page}页")
         return cases_dict
 
 # 实现打开单个链接读取判决内容
 class CaseReader:
     def __init__(self) -> None:
-        pass
+        self.casePath = r""
+
+
 
 if __name__ == '__main__':
 
